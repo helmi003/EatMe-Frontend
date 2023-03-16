@@ -1,0 +1,48 @@
+@import "../../styles/variables.scss";
+
+.table {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &__content {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    max-width: 1000px;
+    padding: 0px 10px;
+    background-color: $dark;
+    color: $light;
+    border-radius: $borderRadius 0px 0px $borderRadius;
+    &__div {
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      p {
+        white-space: nowrap;
+      }
+    }
+    &__vertical {
+      border-left: 2px solid $light;
+      height: 60px;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+  }
+  &__button {
+    background-color: $primary;
+    border-radius: 0px $borderRadius $borderRadius 0px;
+    padding: 15px;
+    color: $light;
+    font-size: 20px;
+    font-weight: 600;
+    cursor: pointer;
+    &:hover{
+      padding: 13px;
+      background-color: $light;
+      color: $primary;
+      border: 2px solid $dark;
+    }
+  }
+}

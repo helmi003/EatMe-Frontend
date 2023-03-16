@@ -1,0 +1,29 @@
+@import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Petrona:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap');
+$poppins :'Poppins', sans-serif;
+$pacifico :'Pacifico', cursive;
+$petrona :'Petrona', serif;
+$dark : #000000;
+$light: #FFFFFF;
+$primary: #F85649;
+$green: #49BE25;
+$red: #E9313C;
+$yellow: #F0E24F;
+$blue-light:#F0F0F7;
+$dark-blue: #001327;
+$silver:#B3B3B3;
+$dark-light:#252E39;
+
+$borderRadius : 16px;
+
+$headerHeight : 100px;
+
+$spacing-md : 16px;
+$spacing-lg : 32px;
+
+@mixin breakpoint($point) {
+    @if $point == md {
+        @media (min-width:48em) {
+            @content;
+        }
+    }
+}

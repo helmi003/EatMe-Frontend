@@ -1,0 +1,23 @@
+@import "./variables.scss";
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+  }
+
+  body {
+    background-image: url(../assets/images/background1.png), url(../assets/images/background2.png);
+    background-position: right top, left top;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed;
+    // transform: scaleX(-1);
+    font-family: $poppins;
+    color: $dark-blue;
+    height: 100%;
+    width: 100%;
+  }
+  
+  #root {
+    height: 100%;
+  }
+  

@@ -1,0 +1,20 @@
+@import "../../styles/variables.scss";
+
+.phone {
+  label {
+    font-weight: 500;
+    font-size: 20;
+  }
+  &__number {
+    width: 360px;
+    padding: 0.7rem;
+    border-radius: $borderRadius;
+    background-color: $blue-light;
+    height: 40px;
+    input {
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+  }
+}

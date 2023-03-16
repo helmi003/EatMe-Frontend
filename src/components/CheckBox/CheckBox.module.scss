@@ -1,0 +1,46 @@
+@import "../../styles/variables.scss";
+
+.checkbox {
+  display: flex;
+  align-items: center;
+  label {
+    font-weight: 500;
+    cursor: pointer;
+    max-width: 360px;
+  }
+  &__input {
+    border-radius: 5px;
+    background-color: rgba($silver, 0.7);
+    height: 20px;
+    width: 20px;
+    cursor: pointer;
+    margin-right: 10px;
+    position: relative;
+    input {
+      appearance: none;
+    }
+    &__before {
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      z-index: 1;
+    }
+    &__after {
+      border-radius: 5px;
+      position: absolute;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba($primary, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: $light;
+      z-index: 2;
+    }
+  }
+}
+

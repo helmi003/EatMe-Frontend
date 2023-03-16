@@ -1,0 +1,99 @@
+@import "../../styles/variables.scss";
+
+.footer {
+  @include breakpoint(md) {
+    padding: 0 3rem;
+  }
+  transition: 0.3s ease all;
+  min-height: 400px;
+  background-image: url(../../assets/images/footer.png);
+  background-repeat: no-repeat;
+  background-size: cover;
+  &__warpped {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    &__icons {
+      img {
+        height: 250px;
+      }
+      margin-top: 20px;
+      h1 {
+        margin-top: 10px;
+        color: $light;
+      }
+      &__icon {
+        margin-right: 10px;
+        color: $light;
+        :hover{
+          cursor: pointer;
+          color: $silver;
+        }
+      }
+    }
+    &__about {
+      width: 300px;
+      h1 {
+        color: $light;
+        margin-top: 50px;
+      }
+      p {
+        color: $silver;
+        text-align: justify;
+      }
+      &__line {
+        padding: 5px 0px;
+        width: 300px;
+        border-top: 5px solid $primary;
+      }
+      span {
+        color: $primary;
+        font-weight: 700;
+      }
+    }
+    &__menu {
+      width: 300px;
+      margin-left: 10px;
+      h1 {
+        color: $light;
+        margin-top: 50px;
+      }
+      &__line {
+        padding: 5px 0px;
+        width: 300px;
+        border-top: 5px solid $primary;
+      }
+      &__content {
+        width: 300px;
+        display: flex;
+        flex-wrap: wrap;
+        h2 {
+          color: $silver;
+          margin-right: 10px;
+        }
+      }
+    }
+    &__contact {
+      width: 300px;
+      margin-left: 10px;
+      h1 {
+        color: $light;
+        margin-top: 50px;
+      }
+      &__line {
+        padding: 5px 0px;
+        width: 300px;
+        border-top: 5px solid $primary;
+      }
+      &__content {
+        display: flex;
+        font-size: 20px;
+        font-weight: 600;
+        color: $silver;
+        p{
+          margin-left: 10px;
+        }
+      }
+    }
+  }
+}

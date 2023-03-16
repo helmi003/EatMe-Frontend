@@ -1,0 +1,39 @@
+@import "../../styles/variables.scss";
+.Input {
+  label {
+    font-weight: 500;
+    font-size: 20;
+  }
+  &__password {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    width: 360px;
+    padding: 0.7rem;
+    border-radius: $borderRadius;
+    background-color: $light;
+    height: 40px;
+    input {
+      flex: 1;
+      font-size: 15px;
+      background-color: transparent;
+      border: none;
+      outline: none;
+    }
+    // input:invalid[focused="true"] & ~ &__error {
+    //   display: block;
+    // }
+  }
+  &__error {
+    font-size: 12px;
+    padding: 3px;
+    color: $red;
+    display: none;
+    max-width: 360px;
+  }
+  
+.Input__error--visible {
+  display: block;
+  /* styles for the visible error message */
+}
+}

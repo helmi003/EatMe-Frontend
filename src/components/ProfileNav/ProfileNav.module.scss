@@ -1,0 +1,49 @@
+@import "../../styles/variables.scss";
+
+.ProfileNav {
+  margin-right: 200px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  &__image{
+    position: relative;
+    img {
+      height: 150px;
+      width: 150px;
+      border-radius: 50%;
+    }
+    &__icon{
+      cursor: pointer;
+      background-color: $primary;
+      padding: 5px;
+      border-radius: 50%;
+      position: absolute;
+      bottom: 10%;
+      right:5%;
+    }
+  }
+  
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    gap: 10px;
+    width: 240px;
+    display: flex;
+    align-items: center;
+    background-color: $blue-light;
+    padding: 10px;
+    border-radius: $borderRadius;
+    margin-bottom: 10px;
+    cursor: pointer;
+    &:hover {
+      background: rgba($dark-blue, 0.1);
+    }
+    &:active {
+      background: linear-gradient(rgba($dark-blue, 0.1), rgba($dark-blue, 0.2));
+    }
+    &:focus {
+      color: $primary;
+    }
+  }
+}

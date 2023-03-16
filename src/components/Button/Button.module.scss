@@ -1,0 +1,30 @@
+@import "../../styles/variables.scss";
+
+.Button {
+  @include breakpoint(md) {
+    margin-bottom: 0;
+    margin-right: calc(0.5rem + #{$spacing-md});
+  }
+  white-space: nowrap;
+  cursor: pointer;
+  outline: none;
+  padding: 0.5rem 1rem;
+  border-radius: $borderRadius;
+  font-size: 20px;
+  font-weight: 600;
+  font-family: inherit;
+  background: $primary;
+  color: $light;
+  border: 1px solid transparent;
+  transition: 0.3s ease all;
+  &:hover {
+    border-color: $primary;
+    background: $light;
+    color: $primary;
+  }
+  &:active {
+    border-color: $primary;
+    background: linear-gradient(rgba($primary, 0.2), rgba($primary, 0.3));
+    color: $primary;
+  }
+}

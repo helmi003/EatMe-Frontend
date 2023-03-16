@@ -1,0 +1,22 @@
+@import "../../styles/variables.scss";
+
+.search {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: $borderRadius;
+  background-color: $blue-light;
+  height: 40px;
+  input {
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    padding-left: 10px;
+  }
+  &__icon {
+    color: $silver;
+  }
+}

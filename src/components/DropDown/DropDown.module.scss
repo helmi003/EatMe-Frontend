@@ -1,0 +1,39 @@
+@import "../../styles/variables.scss";
+
+.dropDown {
+  width: 350px;
+  position: relative;
+  &__btn {
+    cursor: pointer;
+    user-select: none;
+    padding: 10px;
+    background-color: $blue-light;
+    border-radius: $borderRadius;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    font-size: 18px;
+    &__sort{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+    }
+  }
+  &__content {
+    position: absolute;
+    top: 110%;
+    left: 0;
+    padding: 10px;
+    background-color: $blue-light;
+    border-radius: $borderRadius;
+    &__items {
+      cursor: pointer;
+      padding: 10px;
+      transition: all 0.2s;
+      &:hover {
+        background: rgba($dark-blue, 0.1);
+      }
+    }
+  }
+}

@@ -1,0 +1,54 @@
+@import "../../styles/variables.scss";
+
+.table {
+  width: 100%;
+  margin: 10px auto;
+
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    text-align: left;
+  }
+
+  thead {
+    th {
+      &__th {
+        display: flex;
+        align-items: center;
+      }
+      padding: 27px;
+      background-color: $blue-light;
+      font-weight: bold;
+      &:hover {
+        cursor: pointer;
+        text-decoration: underline;
+      }
+    }
+  }
+  tbody {
+    th,
+    td {
+      padding: 27px;
+      border-bottom: 1px solid $dark;
+    }
+  }
+
+  tr:hover {
+    background-color: rgba($dark-blue, 0.1);
+  }
+  &__noData {
+    text-align: center;
+  }
+
+  @media (max-width: 600px) {
+    th,
+    td {
+      display: block;
+      width: 100%;
+    }
+
+    th {
+      text-align: left;
+    }
+  }
+}

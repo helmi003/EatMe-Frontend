@@ -1,0 +1,36 @@
+@import "../../styles/variables.scss";
+
+.MenuOrder {
+  &__menu {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  &__content {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    img {
+      height: 100px;
+      margin-left: 20px;
+    }
+    h4 {
+      color: $silver;
+    }
+    &__details {
+      &__counter {
+        display: flex;
+        gap: 10px;
+      }
+    }
+    &__icon {
+      color: $red;
+      cursor: pointer;
+    }
+  }
+  &__line {
+    margin-left: 20px;
+    border-top: 2px solid $dark;
+  }
+}
