@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import classes from "../components/Layout/Layout.module.scss";
 import emailjs from "@emailjs/browser";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import { MdLocationOn } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
 import { FaFax } from "react-icons/fa";
 import Button from "../components/Button/Button";
 import Input from "../components/ContactInput/index";
-import "react-toastify/dist/ReactToastify.css";
 import Textarea from "../components/Textarea/Textarea";
 
 function Contact() {
@@ -97,7 +96,6 @@ function Contact() {
   };
   return (
     <div className={classes.container__contact}>
-      <ToastContainer />
       <div className={classes.container__contact__form}>
         <h1>Contact us</h1>
         <form onSubmit={sendEmail}>

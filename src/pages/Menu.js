@@ -7,22 +7,57 @@ import CheckBox from "../components/CheckBox/CheckBox";
 import MenuOrder from "../components/MenuOrder/MenuOrder";
 import DropDown from "../components/DropDown/DropDown";
 import {
-  dishesList,
+  // dishesList,
   menuItems,
   sandwichesMenuItems,
 } from "../assets/utils/config";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectAllDishes,
+  getDishesStatus,
+  getDishesError,
+  fetchDishes,
+} from "../features/dishesSlice";
+import { useEffect } from "react";
 function Menu() {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(fetchDishes());
+  }, [dispatch]);
+
+  const dishes = useSelector(selectAllDishes);
+  const dishStatus = useSelector(getDishesStatus);
+  const error = useSelector(getDishesError);
   const [sortOption, setSortOption] = useState("Sort by");
 
-  let sortedDishes = dishesList;
-  if (sortOption === "Name: A to Z") {
-    sortedDishes.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (sortOption === "Name: Z to A") {
-    sortedDishes.sort((a, b) => b.name.localeCompare(a.name));
-  } else if (sortOption === "Price: Low to High") {
-    sortedDishes.sort((a, b) => a.price - b.price);
-  } else if (sortOption === "Price: High to Low") {
-    sortedDishes.sort((a, b) => b.price - a.price);
+  let content;
+  if (dishStatus === "loading") {
+    content = <p>Loading...</p>;
+  } else if (dishStatus === "error") {
+    content = <p>{error}</p>;
+  } else {
+    let sortedDishes = dishes;
+    if (sortOption === "Name: A to Z") {
+      sortedDishes.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOption === "Name: Z to A") {
+      sortedDishes.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sortOption === "Price: Low to High") {
+      sortedDishes.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "Price: High to Low") {
+      sortedDishes.sort((a, b) => b.price - a.price);
+    }
+    const filteredDishes = sortedDishes?.filter((dish) =>
+      dish.name.toLowerCase().includes(search.toLowerCase())
+    );
+    content = (
+      <>
+        {filteredDishes && filteredDishes.length > 0 ? (
+          filteredDishes.map((dish) => <MenuOrder key={dish.id} {...dish} />)
+        ) : (
+          <div>No data available</div>
+        )}
+      </>
+    );
   }
   const [checkboxs, setCheckboxs] = useState(menuItems);
   const [sandwiches, setSandwiches] = useState(sandwichesMenuItems);
@@ -53,9 +88,7 @@ function Menu() {
     "Price: High to Low",
   ];
   const [search, setSearch] = useState("");
-  const filteredDishes = sortedDishes.filter((dish) =>
-    dish.name.toLowerCase().includes(search.toLowerCase())
-  );
+
   return (
     <div className={classes.container__menu}>
       <div className={classes.container__menu__top}>
@@ -94,11 +127,7 @@ function Menu() {
           ))}
         </div>
         <div className={classes.container__menu__content__container}>
-          {filteredDishes && filteredDishes.length > 0 ? (
-            filteredDishes.map((dish) => <MenuOrder key={dish.id} {...dish} />)
-          ) : (
-            <div>No data available</div>
-          )}
+          {content}
           <br />
         </div>
         <div className={classes.container__menu__content__aside}>

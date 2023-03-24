@@ -19,30 +19,41 @@ import Favourites from "./pages/profile/screens/Favourites";
 import ChangePassword from "./pages/profile/screens/ChangePassword";
 import History from "./pages/profile/screens/History";
 import Profile from "./components/Profile/Profile";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import store from "./store";
+import { Provider } from "react-redux";
+
 function App() {
   return (
-    <Layout>
-      <Routes>
-        <Route exact path="/" element={<Home />} />
-        <Route path="/About" element={<About />} />
-        <Route path="/Reservation" element={<Reservation />} />
-        <Route path="/Contact" element={<Contact />} />
-        <Route path="/Menu" element={<Menu />} />
-        <Route path="/Cart" element={<Cart />} />
-        <Route path="/Login" element={<Login />} />
-        <Route path="/Produit" element={<Produit />} />
-        <Route path="/Register" element={<Register />} />
-        <Route path="/ForgetPassword" element={<ForgetPassword />} />
-        <Route path="/EmailConfirmation" element={<EmailConfirmation />} />
-        <Route path="/Checkout" element={<Checkout />} />
-        <Route path="/Profile" element={<Profile />}>
-          <Route path="/Profile" element={<Details />} />
-          <Route path="/Profile/Favourites" element={<Favourites />} />
-          <Route path="/Profile/ChangePassword" element={<ChangePassword />} />
-          <Route path="/Profile/History" element={<History />} />
-        </Route>
-      </Routes>
-    </Layout>
+    <Provider store={store}>
+      <Layout>
+        <Routes>
+          <Route exact path="/" element={<Home />} />
+          <Route path="/About" element={<About />} />
+          <Route path="/Reservation" element={<Reservation />} />
+          <Route path="/Contact" element={<Contact />} />
+          <Route path="/Menu" element={<Menu />} />
+          <Route path="/Cart" element={<Cart />} />
+          <Route path="/Login" element={<Login />} />
+          <Route path="/Produit" element={<Produit />} />
+          <Route path="/Register" element={<Register />} />
+          <Route path="/ForgetPassword" element={<ForgetPassword />} />
+          <Route path="/EmailConfirmation" element={<EmailConfirmation />} />
+          <Route path="/Checkout" element={<Checkout />} />
+          <Route path="/Profile" element={<Profile />}>
+            <Route path="/Profile" element={<Details />} />
+            <Route path="/Profile/Favourites" element={<Favourites />} />
+            <Route
+              path="/Profile/ChangePassword"
+              element={<ChangePassword />}
+            />
+            <Route path="/Profile/History" element={<History />} />
+          </Route>
+        </Routes>
+        <ToastContainer />
+      </Layout>
+    </Provider>
   );
 }
 

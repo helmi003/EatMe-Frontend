@@ -3,9 +3,8 @@ import { Link,useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import classes from "../../components/Layout/Layout.module.scss";
-import "react-toastify/dist/ReactToastify.css";
 // import emailjs from "@emailjs/browser";
-// import { ToastContainer, toast } from "react-toastify";
+// import { toast } from "react-toastify";
 
 function ForgetPassword() {
   const [value, setValue] = useState("");
@@ -52,7 +51,6 @@ function ForgetPassword() {
   return (
     <div className={classes.container__forgetPassword}>
       <div className={classes.container__forgetPassword__content}>
-      {/* <ToastContainer /> */}
         <form onSubmit={sendEmail}>
           <h1>Reset password</h1>
           <br />
