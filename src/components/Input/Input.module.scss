@@ -20,20 +20,21 @@
       border: none;
       outline: none;
     }
-    // input:invalid[focused="true"] & ~ &__error {
-    //   display: block;
-    // }
+    input:invalid[focused="true"] ~ .Input__error {
+      display: block;
+    }
   }
-  &__error {
+  .Input__error {
     font-size: 12px;
     padding: 3px;
     color: $red;
     display: none;
     max-width: 360px;
   }
-  
-.Input__error--visible {
-  display: block;
-  /* styles for the visible error message */
-}
+  .Input__error--visible {
+    display: block;
+  }
+  &:not(:has(.Input__error:not(:empty))) .Input__error {
+    display: none;
+  }
 }

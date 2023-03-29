@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import classes from "../components/Layout/Layout.module.scss";
 import Search from "../components/Search/Search";
 import EatMe from "../components/EatMe/EatMe";
@@ -6,11 +6,7 @@ import Button from "../components/Button/Button";
 import CheckBox from "../components/CheckBox/CheckBox";
 import MenuOrder from "../components/MenuOrder/MenuOrder";
 import DropDown from "../components/DropDown/DropDown";
-import {
-  // dishesList,
-  menuItems,
-  sandwichesMenuItems,
-} from "../assets/utils/config";
+import { menuItems, sandwichesMenuItems } from "../assets/utils/config";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectAllDishes,
@@ -18,7 +14,6 @@ import {
   getDishesError,
   fetchDishes,
 } from "../features/dishesSlice";
-import { useEffect } from "react";
 function Menu() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -29,14 +24,17 @@ function Menu() {
   const dishStatus = useSelector(getDishesStatus);
   const error = useSelector(getDishesError);
   const [sortOption, setSortOption] = useState("Sort by");
-
+  const [search, setSearch] = useState("");
   let content;
   if (dishStatus === "loading") {
+    console.log("loading...")
     content = <p>Loading...</p>;
   } else if (dishStatus === "error") {
+    console.log("error",error)
     content = <p>{error}</p>;
   } else {
-    let sortedDishes = dishes;
+    console.log("success")
+    let sortedDishes = Array.from(dishes ?? []);
     if (sortOption === "Name: A to Z") {
       sortedDishes.sort((a, b) => a.name.localeCompare(b.name));
     } else if (sortOption === "Name: Z to A") {
@@ -46,13 +44,14 @@ function Menu() {
     } else if (sortOption === "Price: High to Low") {
       sortedDishes.sort((a, b) => b.price - a.price);
     }
+
     const filteredDishes = sortedDishes?.filter((dish) =>
       dish.name.toLowerCase().includes(search.toLowerCase())
     );
     content = (
       <>
         {filteredDishes && filteredDishes.length > 0 ? (
-          filteredDishes.map((dish) => <MenuOrder key={dish.id} {...dish} />)
+          filteredDishes.map((dish) => <MenuOrder key={dish._id} {...dish} />)
         ) : (
           <div>No data available</div>
         )}
@@ -87,7 +86,6 @@ function Menu() {
     "Price: Low to High",
     "Price: High to Low",
   ];
-  const [search, setSearch] = useState("");
 
   return (
     <div className={classes.container__menu}>

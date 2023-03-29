@@ -3,7 +3,6 @@ import classes from "./MenuOrder.module.scss";
 import { Link } from "react-router-dom";
 import CheckBox from "../CheckBox/CheckBox";
 import Counter from "../Counter/Counter";
-import makloub from "../../assets/images/makloub.jpeg";
 import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 
@@ -15,18 +14,18 @@ function MenuOrder(dish) {
       <div className={classes.MenuOrder__menu}>
         <div className={classes.MenuOrder__content}>
           <CheckBox
-            id="makloub"
-            name="makloub"
-            value="makloub"
+            id={dish.category}
+            name={dish.category}
+            value={dish.category}
             check={isChecked}
             onClick={() => setIsChecked(!isChecked)}
           />
           <Link to="/Produit" dish={dish}>
-            <img src={makloub} alt="makloub" />
+            <img src={dish.image} alt="makloub" />
           </Link>
           <div className={classes.MenuOrder__content__details}>
             <h2>{dish.name}</h2>
-            <h4>{dish.description.join(", ")}</h4>
+            <h4>{dish.supplements.map(desc => desc.name).join(", ")}</h4>
             <div className={classes.MenuOrder__content__details__counter}>
               <p>Quantity:</p> <Counter quantity={dish.quantity} />
             </div>

@@ -8,16 +8,7 @@ const initialState = {
 
 export const fetchDishes = createAsyncThunk("dishes/fetchDishes", async () => {
   try {
-    const response = await axios.get(
-      "http://localhost:3300/api/dish"
-      // {},
-      // {
-      //   withCredentials: true,
-      //   headers: {
-      //     "Access-Control-Allow-Origin": "*",
-      //   },
-      // }
-    );
+    const response = await axios.get("http://localhost:3300/api/dish");
     return response?.data;
   } catch (err) {
     return err.message;
@@ -39,13 +30,14 @@ const dishesSlice = createSlice({
       })
       .addCase(fetchDishes.rejected, (state, action) => {
         state.status = "error";
+        state.error = action.payload.message;
       });
   },
 });
 
 export const selectAllDishes = (state) => {
-  console.log(state.dishes.items);
-  return state?.items;
+  // console.log(state.dishes.items);
+  return state.dishes.items["dishes"];
 };
 export const getDishesStatus = (state) => state.status;
 export const getDishesError = (state) => state.error;

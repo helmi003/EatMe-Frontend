@@ -7,7 +7,8 @@ const Input = (props) => {
   const [focused, setFocused] = useState(false);
   const { id, label, errorMessage, type, extraStyles, ...rest } = props;
   const [isInvisible, setIsInvisible] = useState(false);
-  const errorClass = errorMessage && focused ? classes["Input__error--visible"] : "";
+  const errorClass =
+    errorMessage && focused ? classes["Input__error--visible"] : "";
   return (
     <div className={classes.Input}>
       {label && <label htmlFor={id}>{label}</label>}
@@ -15,7 +16,9 @@ const Input = (props) => {
         <input
           id={id}
           {...rest}
-          type={type === "password" && (isInvisible ? "text" : "password")}
+          type={
+            type === "password" ? (isInvisible ? "text" : "password") : "text"
+          }
           onBlur={() => setFocused(true)}
           focused={focused.toString()}
         />
@@ -39,7 +42,9 @@ const Input = (props) => {
           ))}
       </div>
       {errorMessage && (
-        <div className={`${classes.Input__error} ${errorClass}`}>{errorMessage}</div>
+        <div className={`${classes.Input__error} ${errorClass}`}>
+          {errorMessage}
+        </div>
       )}
     </div>
   );
