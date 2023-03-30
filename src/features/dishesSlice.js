@@ -4,6 +4,7 @@ import axios from "axios";
 const initialState = {
   items: [],
   status: "idle",
+  error:null
 };
 
 export const fetchDishes = createAsyncThunk("dishes/fetchDishes", async () => {
@@ -30,7 +31,7 @@ const dishesSlice = createSlice({
       })
       .addCase(fetchDishes.rejected, (state, action) => {
         state.status = "error";
-        state.error = action.payload.message;
+        state.error = action.error.message;
       });
   },
 });
@@ -39,7 +40,7 @@ export const selectAllDishes = (state) => {
   // console.log(state.dishes.items);
   return state.dishes.items["dishes"];
 };
-export const getDishesStatus = (state) => state.status;
-export const getDishesError = (state) => state.error;
+export const getDishesStatus = (state) => state.dishes.status;
+export const getDishesError = (state) => state.dishes.error;
 
 export default dishesSlice.reducer;

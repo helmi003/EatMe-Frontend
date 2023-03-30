@@ -5,6 +5,7 @@ const initialState = {
   user: "",
   token: "",
   status: "idle",
+  error:null
 };
 
 export const login = createAsyncThunk("user/authLogin", async (body) => {
@@ -44,12 +45,12 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "error";
-        state.error = action.payload.message;
+        state.error = action.error.message;
       });
   },
 });
 
 export const { addToken, addUser } = authSlice.actions;
-export const getUserStatus = (state) => state.status;
-export const getUserError = (state) => state.error;
+export const getUserStatus = (state) => state.user.status;
+export const getUserError = (state) => state.user.error;
 export default authSlice.reducer;

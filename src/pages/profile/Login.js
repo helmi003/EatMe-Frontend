@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import classes from "../../components/Layout/Layout.module.scss";
 import loginImage from "../../assets/images/login.jpg";
 import CheckBox from "../../components/CheckBox/CheckBox";
@@ -7,7 +7,7 @@ import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../features/authSlice";
-import {  getUserError } from "../../features/authSlice";
+import { getUserStatus, getUserError } from "../../features/authSlice";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -42,35 +42,30 @@ const Login = () => {
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  // const userStatus = useSelector(getUserStatus);
+  const userStatus = useSelector(getUserStatus);
   const error = useSelector(getUserError);
   const navigate = useNavigate();
+  useEffect(() => {
+    console.log("status=", userStatus);
+    if (userStatus === "loading") {
+      console.log("loading...");
+    } else if (userStatus === "success") {
+      console.log("success");
+      navigate("/");
+    } else if (userStatus === "error") {
+      console.log("error=", error);
+    }
+  }, [userStatus, error, navigate]);
   const handleLogin = (e) => {
     e.preventDefault();
-    
-    try {
-      dispatch(
-        login({
-          email: values["email"],
-          password: values["password"],
-        })
-      );
-      navigate('/')
-  } catch (err) {
-    console.log("error=", error);
-  }
+    dispatch(
+      login({
+        email: values["email"],
+        password: values["password"],
+      })
+    );
   };
-  // useEffect(() => {
-  //   console.log("userStatus=", userStatus);
-  //   if (userStatus === "loading") {
-  //     console.log("loading...");
-  //   } else if (userStatus === "success") {
-  //     console.log("success");
-  //     navigate("/");
-  //   } else if (userStatus === "error") {
-  //     console.log("error=", error);
-  //   }
-  // }, [userStatus, error, navigate]);
+
   const [isChecked, setIsChecked] = useState(false);
   return (
     <div className={classes.container__login}>
@@ -108,7 +103,6 @@ const Login = () => {
               transform: "translateX(-50%)",
               left: "50%",
             }}
-            // onClick={handleLogin}
           >
             Sign in
           </Button>
