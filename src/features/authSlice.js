@@ -5,6 +5,7 @@ const initialState = {
   user: "",
   token: "",
   status: "idle",
+  success: "",
   error: null,
   loading: false,
 };
@@ -20,6 +21,26 @@ export const login = createAsyncThunk("user/authLogin", async (body) => {
     throw new Error(err.response?.data?.message || err.message);
   }
 });
+
+export const updateProfile = createAsyncThunk(
+  "user/updateProfile",
+  async (body) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3300/api/auth/update",
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
+      return response?.data;
+    } catch (err) {
+      throw new Error(err.response?.data?.message || err.message);
+    }
+  }
+);
 
 const authSlice = createSlice({
   name: "user",
@@ -54,13 +75,28 @@ const authSlice = createSlice({
         state.status = "error";
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(updateProfile.pending, (state, action) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(updateProfile.fulfilled, (state, action) => {
+        state.status = "success";
+        state.loading = false;
+        state.success = action.payload.message;
+      })
+      .addCase(updateProfile.rejected, (state, action) => {
+        state.status = "error";
+        state.loading = false;
+        state.error = action.error.message;
       });
   },
 });
 
-export const { getUser,logOut } = authSlice.actions;
+export const { getUser, logOut } = authSlice.actions;
 export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
 export const getUserLoading = (state) => state.user.loading;
 export const getUserData = (state) => state.user.user;
+export const getUserSuccess = (state) => state.user.success;
 export default authSlice.reducer;

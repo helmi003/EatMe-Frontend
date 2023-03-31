@@ -6,8 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserLoading, login } from "../../features/authSlice";
-import { getUserStatus, getUserError } from "../../features/authSlice";
+import { getUserLoading, login,getUserStatus, getUserError } from "../../features/authSlice";
 import { toast } from "react-toastify";
 import Loading from "../../components/Loading/Loading";
 
