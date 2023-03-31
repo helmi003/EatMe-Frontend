@@ -5,7 +5,8 @@ const initialState = {
   user: "",
   token: "",
   status: "idle",
-  error:null
+  error: null,
+  loading: false,
 };
 
 export const login = createAsyncThunk("user/authLogin", async (body) => {
@@ -24,20 +25,26 @@ const authSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    addToken: (state, action) => {
+    getUser: (state) => {
+      state.user = localStorage.getItem("user");
       state.token = localStorage.getItem("token");
     },
-    addUser: (state, action) => {
-      state.user = localStorage.getItem("user");
+    logOut: (state) => {
+      localStorage.removeItem("user");
+      localStorage.removeItem("token");
+      state.user = "";
+      state.token = "";
     },
   },
   extraReducers(builder) {
     builder
       .addCase(login.pending, (state, action) => {
         state.status = "loading";
+        state.loading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "success";
+        state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
         localStorage.setItem("user", JSON.stringify(action.payload.user));
@@ -45,12 +52,15 @@ const authSlice = createSlice({
       })
       .addCase(login.rejected, (state, action) => {
         state.status = "error";
+        state.loading = false;
         state.error = action.error.message;
       });
   },
 });
 
-export const { addToken, addUser } = authSlice.actions;
+export const { getUser,logOut } = authSlice.actions;
 export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
+export const getUserLoading = (state) => state.user.loading;
+export const getUserData = (state) => state.user.user;
 export default authSlice.reducer;

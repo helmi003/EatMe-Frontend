@@ -17,7 +17,7 @@ function MenuOrder(dish) {
             id={dish.category}
             name={dish.category}
             value={dish.category}
-            check={isChecked}
+            check={isChecked.toString()}
             onClick={() => setIsChecked(!isChecked)}
           />
           <Link to="/Produit" dish={dish}>

@@ -6,8 +6,10 @@ import { Link, useNavigate } from "react-router-dom";
 import Button from "../../components/Button/Button";
 import Input from "../../components/Input/Input";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../features/authSlice";
+import { getUserLoading, login } from "../../features/authSlice";
 import { getUserStatus, getUserError } from "../../features/authSlice";
+import { toast } from "react-toastify";
+import Loading from "../../components/Loading/Loading";
 
 const Login = () => {
   const [values, setValues] = useState({
@@ -44,6 +46,7 @@ const Login = () => {
   };
   const userStatus = useSelector(getUserStatus);
   const error = useSelector(getUserError);
+  const loading = useSelector(getUserLoading);
   const navigate = useNavigate();
   useEffect(() => {
     console.log("status=", userStatus);
@@ -53,7 +56,16 @@ const Login = () => {
       console.log("success");
       navigate("/");
     } else if (userStatus === "error") {
-      console.log("error=", error);
+      toast.error("The email or password is incorrect!", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+        theme: "colored",
+      });
     }
   }, [userStatus, error, navigate]);
   const handleLogin = (e) => {
@@ -64,10 +76,13 @@ const Login = () => {
         password: values["password"],
       })
     );
+    setValues({ email: "", password: "" });
   };
 
   const [isChecked, setIsChecked] = useState(false);
-  return (
+  return loading ? (
+    <Loading />
+  ) : (
     <div className={classes.container__login}>
       <div className={classes.container__login__form}>
         <h1>Login</h1>
@@ -91,8 +106,8 @@ const Login = () => {
               name="remember"
               value="remember"
               label="Remember me"
-              checked={isChecked}
-              onChange={(e) => setIsChecked(e.target.checked)}
+              check={isChecked.toString()}
+              onChange={(e) => setIsChecked(!isChecked)}
             />
             <Link to="/ForgetPassword">Forget password?</Link>
           </div>

@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import classes from "../components/Layout/Layout.module.scss";
 import Search from "../components/Search/Search";
 import EatMe from "../components/EatMe/EatMe";
@@ -14,6 +14,7 @@ import {
   getDishesError,
   fetchDishes,
 } from "../features/dishesSlice";
+import Loading from "../components/Loading/Loading";
 function Menu() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -26,14 +27,13 @@ function Menu() {
   const [sortOption, setSortOption] = useState("Sort by");
   const [search, setSearch] = useState("");
   let content;
+
   if (dishStatus === "loading") {
-    console.log("loading...")
-    content = <p>Loading...</p>;
+    content = <Loading />;
   } else if (dishStatus === "error") {
-    console.log("error",error)
+    console.log("error", error);
     content = <p>{error}</p>;
   } else {
-    console.log("success")
     let sortedDishes = Array.from(dishes ?? []);
     if (sortOption === "Name: A to Z") {
       sortedDishes.sort((a, b) => a.name.localeCompare(b.name));
@@ -44,7 +44,6 @@ function Menu() {
     } else if (sortOption === "Price: High to Low") {
       sortedDishes.sort((a, b) => b.price - a.price);
     }
-
     const filteredDishes = sortedDishes?.filter((dish) =>
       dish.name.toLowerCase().includes(search.toLowerCase())
     );
@@ -58,6 +57,7 @@ function Menu() {
       </>
     );
   }
+
   const [checkboxs, setCheckboxs] = useState(menuItems);
   const [sandwiches, setSandwiches] = useState(sandwichesMenuItems);
   const handleChecboxs = (id) => {
@@ -102,9 +102,10 @@ function Menu() {
         <div className={classes.container__menu__content__aside}>
           <h1>CATEGORIES</h1>
           {checkboxs.map((item) => (
-            <div>
+            <>
               <CheckBox
                 key={item.id}
+                check={item.check.toString()}
                 {...item}
                 onClick={() => handleChecboxs(item.id)}
               />
@@ -116,12 +117,13 @@ function Menu() {
                   sandwiches.map((sandwich) => (
                     <CheckBox
                       key={sandwich.id}
+                      check={item.check.toString()}
                       {...sandwich}
                       onClick={() => handleChecboxs(sandwich.id)}
                     />
                   ))}
               </div>
-            </div>
+            </>
           ))}
         </div>
         <div className={classes.container__menu__content__container}>

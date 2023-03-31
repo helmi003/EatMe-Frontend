@@ -6,8 +6,9 @@ import Input from "../../../components/Input/Input";
 import DateInput from "../../../components/DateInput/DateInput";
 import Button from "../../../components/Button/Button";
 import CountrySelector from "../../../components/CountrySelector/CountrySelector";
-
 function Profile() {
+  const output = window.localStorage.getItem("user");
+  const user = JSON.parse(output);
   const radios = [
     {
       id: "male",
@@ -49,25 +50,29 @@ function Profile() {
       type: "text",
       placeholder: "Enter your address",
       errorMessage: "The address should not be empty",
-      label: "Address",
+      label: "Address - Street",
       required: true,
     },
   ];
   const today = new Date().toISOString().split("T")[0];
   const [values, setValues] = useState({
-    name: "",
-    email: "",
-    address: "",
-    date: "",
-    location: "",
-    post: "",
+    name: user.username,
+    email: user.email,
+    address: user.address,
+    country: user.country,
+    code: user.postal,
+    state: user.state,
+    region: user.region,
   });
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const [gender, setGender] = useState("male");
-  const [number, setNumber] = useState();
-  const [selectedDate, setSelectedDate] = useState(today);
+  const [gender, setGender] = useState(user.gender);
+  const [number, setNumber] = useState(user.phone);
+  const dateObj = new Date(user.date);
+  console.log(number)
+  const formattedDate = dateObj.toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(formattedDate);
   return (
     <div className={classes.container__details}>
       <h1>Personal information</h1>
@@ -96,7 +101,7 @@ function Profile() {
         <PhoneNumber
           value={number}
           label="Phone number"
-          onChange={(e) => setNumber(e.target.number)}
+          onChange={setNumber}
           extraStyles={{ width: "200px" }}
         />
         <DateInput
@@ -109,26 +114,36 @@ function Profile() {
           onChange={(e) => setSelectedDate(e.target.selectedDate)}
         />
       </div>
+      <CountrySelector
+        extraStyles={{
+          backgroundColor: "#F0F0F7",
+          fontSize: 15,
+          marginRight: "50px",
+        }}
+        region={values["state"]}
+        country={values["country"]}
+        setRegion={(state) => setValues((prev) => ({ ...prev, state }))}
+        setCountry={(country) => setValues((prev) => ({ ...prev, country }))}
+      />
       <div className={classes.container__details__info}>
-        <CountrySelector
-          extraStyles={{
-            backgroundColor: "#F0F0F7",
-            fontSize: 15,
-            marginRight: "50px",
-          }}
-          region={values["region"]}
-          country={values["country"]}
-          setRegion={(region) => setValues((prev) => ({ ...prev, region }))}
-          setCountry={(country) => setValues((prev) => ({ ...prev, country }))}
+        <Input
+          extraStyles={{ backgroundColor: "#F0F0F7", width: "200px" }}
+          id="code"
+          name="code"
+          type="text"
+          placeholder="Enter your zip code"
+          label="Zip code"
+          value={values.code}
+          onChange={onChange}
         />
         <Input
           extraStyles={{ backgroundColor: "#F0F0F7", width: "200px" }}
-          id="post"
-          name="post"
+          id="region"
+          name="region"
           type="text"
-          placeholder="Enter your post code"
-          label="Post code"
-          value={values.post}
+          placeholder="Enter your region"
+          label="Region"
+          value={values.region}
           onChange={onChange}
         />
       </div>

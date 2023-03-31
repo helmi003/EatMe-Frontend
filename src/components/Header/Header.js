@@ -5,11 +5,12 @@ import classes from "./Header.module.scss";
 import { Link } from "react-router-dom";
 import logo from "../../assets/images/Blogo-name.png";
 import cart from "../../assets/images/cart.png";
-import profile from "../../assets/images/man.png";
 import Button from "../Button/Button";
 import { dishesList } from "../../assets/utils/config";
 
 const Header = () => {
+  const output = window.localStorage.getItem("user");
+  const user = JSON.parse(output);
   const [menuOpen, setMenuOpen] = useState(false);
   const [size, setSize] = useState({
     width: undefined,
@@ -85,20 +86,23 @@ const Header = () => {
             </Link>
 
             <span className={classes.header__content__container__circle}>
-              {dishes.length > 0 ?(dishes.length):0}
+              {dishes.length > 0 ? dishes.length : 0}
             </span>
           </div>
           <div className={classes.header__content__vertical}></div>
-          <Link to="/Login">
-            <Button>{"Login"}</Button>
-          </Link>
-          <Link to="/Profile">
-            <img
-              src={profile}
-              alt="Profile"
-              className={classes.header__content__profile}
-            />
-          </Link>
+          {user ? (
+            <Link to="/Profile">
+              <img
+                src={user.image}
+                alt={user.username}
+                className={classes.header__content__profile}
+              />
+            </Link>
+          ) : (
+            <Link to="/Login">
+              <Button>{"Login"}</Button>
+            </Link>
+          )}
         </nav>
         <div className={classes.header__content__toggle}>
           {!menuOpen ? (

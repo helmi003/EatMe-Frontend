@@ -20,8 +20,8 @@ function CountrySelector({
         onChange={setCountry}
       />
       <RegionDropdown
-        blankOptionLabel="No state selected"
-        defaultOptionLabel="Now select a state"
+        blankOptionLabel="No country selected"
+        defaultOptionLabel="select a state"
         style={extraStyles}
         className={classes.CountrySelector__dropdown}
         disableWhenEmpty={true}
