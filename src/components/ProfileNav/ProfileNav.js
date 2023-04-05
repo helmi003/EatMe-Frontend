@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import classes from "./ProfileNav.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { BsFillPersonFill } from "react-icons/bs";
@@ -9,14 +9,15 @@ import { BiLogOut } from "react-icons/bi";
 import { MdModeEdit } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { logOut } from "../../features/authSlice";
+import Dialog from "../Dialog/Dialog";
 
 function ProfileNav() {
   const linkRef = useRef(null);
   useEffect(() => {
     linkRef.current.focus();
   }, []);
-  const output = window.localStorage.getItem('user');
-  const user = JSON.parse(output)
+  const output = window.localStorage.getItem("user");
+  const user = JSON.parse(output);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const handleLogout = (e) => {
@@ -25,6 +26,7 @@ function ProfileNav() {
     navigate("/Login");
     window.location.reload();
   };
+  const [openDialog, setOpenDialog] = useState();
   return (
     <div className={classes.ProfileNav}>
       <div className={classes.ProfileNav__image}>
@@ -33,6 +35,9 @@ function ProfileNav() {
           size={30}
           color="white"
           className={classes.ProfileNav__image__icon}
+          onClick={() => {
+            setOpenDialog(true);
+          }}
         />
       </div>
       <h2>{user.username}</h2>
@@ -44,7 +49,7 @@ function ProfileNav() {
         </Link>
         <Link to="/Profile/ChangePassword">
           <AiFillLock size={40} color="#F85649" />
-          Chnage password
+          Change password
         </Link>
         <Link to="/Profile/History">
           <FaClipboardList size={40} color="#F85649" />
@@ -58,6 +63,14 @@ function ProfileNav() {
           <BiLogOut size={40} color="#F85649" /> Logout
         </Link>
       </nav>
+      {openDialog && (
+        <Dialog
+          openDialog={openDialog}
+          setOpenDialog={setOpenDialog}
+          profilePic={user.image}
+          name={user.username}
+        />
+      )}
     </div>
   );
 }

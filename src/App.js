@@ -51,7 +51,16 @@ function App() {
             <Route path="/Profile/History" element={<History />} />
           </Route>
         </Routes>
-        <ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          closeOnClick={true}
+          pauseOnHover={true}
+          draggable={true}
+          progress={undefined}
+          theme="colored"
+        />
       </Layout>
     </Provider>
   );

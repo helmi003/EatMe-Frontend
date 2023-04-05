@@ -7,8 +7,6 @@ const Input = (props) => {
   const [focused, setFocused] = useState(false);
   const { id, label, errorMessage, type, extraStyles, ...rest } = props;
   const [isInvisible, setIsInvisible] = useState(false);
-  const errorClass =
-    errorMessage && focused ? classes["Input__error--visible"] : "";
   return (
     <div className={classes.Input}>
       {label && <label htmlFor={id}>{label}</label>}
@@ -42,7 +40,7 @@ const Input = (props) => {
           ))}
       </div>
       {errorMessage && (
-        <div className={`${classes.Input__error} ${errorClass}`}>
+        <div className={classes.Input__error}>
           {errorMessage}
         </div>
       )}

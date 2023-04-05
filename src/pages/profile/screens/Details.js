@@ -11,14 +11,25 @@ import {
   getUserStatus,
   getUserError,
   getUserLoading,
-  getUserSuccess,
   updateProfile,
 } from "../../../features/authSlice";
+import { updateStatus } from "../../../features/authSlice";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading/Loading";
 function Profile() {
   const output = window.localStorage.getItem("user");
   const user = JSON.parse(output);
+  const today = new Date().toISOString().split("T")[0];
+  const [gender, setGender] = useState(user.gender);
+  const [number, setNumber] = useState(user.phone);
+  const dateObj = new Date(user.date);
+  const formattedDate = dateObj.toISOString().split("T")[0];
+  const [selectedDate, setSelectedDate] = useState(formattedDate);
+  const [formErrors, setFormErrors] = useState({});
+  const userStatus = useSelector(getUserStatus);
+  const error = useSelector(getUserError);
+  const loading = useSelector(getUserLoading);
+  const dispatch = useDispatch();
   const radios = [
     {
       id: "male",
@@ -35,14 +46,12 @@ function Profile() {
   ];
   const inputs = [
     {
+      label: "Full name",
       id: "name",
       name: "name",
       type: "text",
       placeholder: "Enter your name",
-      errorMessage:
-        "Only alphabets, spaces and numbers are allowed and maximum length of 30",
-      label: "Full name",
-      pattern: "^[A-Za-z0-9 ]{0,30}$",
+      errorMessage: formErrors.name,
       required: true,
     },
     {
@@ -50,21 +59,18 @@ function Profile() {
       name: "email",
       type: "email",
       placeholder: "Enter your email",
-      errorMessage: "This email address is invalid",
       label: "Email",
-      required: true,
+      disabled: true,
     },
     {
       id: "address",
       name: "address",
       type: "text",
       placeholder: "Enter your address",
-      errorMessage: "The address should not be empty",
       label: "Address - Street",
-      required: true,
     },
   ];
-  const today = new Date().toISOString().split("T")[0];
+
   const [values, setValues] = useState({
     name: user.username,
     email: user.email,
@@ -77,61 +83,45 @@ function Profile() {
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
-  const [gender, setGender] = useState(user.gender);
-  const [number, setNumber] = useState(user.phone);
-  const dateObj = new Date(user.date);
-  const formattedDate = dateObj.toISOString().split("T")[0];
-  const [selectedDate, setSelectedDate] = useState(formattedDate);
-  const dispatch = useDispatch();
+  const validate = (values) => {
+    const errors = {};
+    const nameRgrex = /^[A-Za-z ]{3,30}$/;
+    if (!nameRgrex.test(values.name)) {
+      errors.name =
+        "Only alphabets, spaces and numbers are allowed and minimum length of 3 and maximum of 30";
+    }
+    return errors;
+  };
   const handleUpdateProfile = (e) => {
     e.preventDefault();
-    dispatch(
-      updateProfile({
-        username: values["name"],
-        email: values["email"],
-        address: values["address"],
-        country: values["country"],
-        postal: values["code"],
-        state: values["state"],
-        region: values["region"],
-        gender: gender,
-        phone: number,
-        date: selectedDate,
-      })
-    );
-  };
-  const userStatus = useSelector(getUserStatus);
-  const error = useSelector(getUserError);
-  const loading = useSelector(getUserLoading);
-  const success = useSelector(getUserSuccess);
-  useEffect(() => {
-    console.log("status=", userStatus);
-    if (userStatus === "loading") {
-      console.log("loading...");
-    } else if (userStatus === "success") {
-      toast.success(success, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
-    } else if (userStatus === "error") {
-      toast.error(error, {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+    setFormErrors(validate(values));
+    if (Object.keys(validate(values)).length === 0) {
+      // const newDate = new Date(selectedDate);
+      // const isoDate = newDate.toISOString();
+      dispatch(
+        updateProfile({
+          username: values["name"],
+          address: values["address"],
+          country: values["country"],
+          postal: values["code"],
+          state: values["state"],
+          region: values["region"],
+          gender: gender,
+          phone: number,
+          date: selectedDate,
+        })
+      );
     }
-  }, [userStatus, error, success]);
+  };
+
+  useEffect(() => {
+    if (userStatus === "updatedProfile") {
+      toast.success("Profile updated successfully");
+      dispatch(updateStatus());
+    } else if (userStatus === "error") {
+      toast.error(error);
+    }
+  }, [userStatus, error, dispatch]);
   return loading ? (
     <Loading />
   ) : (
@@ -173,7 +163,7 @@ function Profile() {
             label="Date of birth"
             max={today}
             value={selectedDate}
-            onChange={(e) => setSelectedDate(e.target.selectedDate)}
+            onChange={(e) => setSelectedDate(e.target.value)}
           />
         </div>
         <CountrySelector

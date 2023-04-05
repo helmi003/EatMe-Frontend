@@ -23,7 +23,6 @@ const Login = () => {
       type: "email",
       label: "Email",
       placeholder: "Enter your email",
-      errorMessage: "This email address is invalid",
       required: true,
     },
     {
@@ -32,14 +31,9 @@ const Login = () => {
       type: "password",
       label: "Password",
       placeholder: "Enter your password",
-      errorMessage:
-        "Minimum eight characters, at least one uppercase letter, one lowercase letter, one number and one special character",
-      // pattern:
-      //   "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,}$",
       required: true,
     },
   ];
-
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -48,23 +42,11 @@ const Login = () => {
   const loading = useSelector(getUserLoading);
   const navigate = useNavigate();
   useEffect(() => {
-    console.log("status=", userStatus);
-    if (userStatus === "loading") {
-      console.log("loading...");
-    } else if (userStatus === "success") {
-      console.log("success");
+    if (userStatus === "logedIn") {
+      toast.success("Loged in successfully");
       navigate("/");
     } else if (userStatus === "error") {
-      toast.error("The email or password is incorrect!", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-        closeOnClick: true,
-        pauseOnHover: true,
-        draggable: true,
-        progress: undefined,
-        theme: "colored",
-      });
+      toast.error(error);
     }
   }, [userStatus, error, navigate]);
   const handleLogin = (e) => {
@@ -75,7 +57,7 @@ const Login = () => {
         password: values["password"],
       })
     );
-    setValues({ email: "", password: "" });
+    setValues({ password: "" });
   };
 
   const [isChecked, setIsChecked] = useState(false);

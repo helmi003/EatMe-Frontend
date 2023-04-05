@@ -5,15 +5,27 @@ const initialState = {
   user: "",
   token: "",
   status: "idle",
-  success: "",
   error: null,
   loading: false,
+  history: "",
 };
 
 export const login = createAsyncThunk("user/authLogin", async (body) => {
   try {
     const response = await axios.post(
       "http://localhost:3300/api/auth/login",
+      body
+    );
+    return response?.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || err.message);
+  }
+});
+
+export const register = createAsyncThunk("user/authRegister", async (body) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:3300/api/auth/register",
       body
     );
     return response?.data;
@@ -31,7 +43,46 @@ export const updateProfile = createAsyncThunk(
         body,
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
+            Authorization: `Bearer ${localStorage
+              .getItem("token")
+              .replace(/^"|"$/g, "")}`,
+          },
+        }
+      );
+      return response?.data;
+    } catch (err) {
+      throw new Error(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+export const userHistory = createAsyncThunk("user/userHistory", async () => {
+  try {
+    const response = await axios.get("http://localhost:3300/api/history", {
+      headers: {
+        Authorization: `Bearer ${localStorage
+          .getItem("token")
+          .replace(/^"|"$/g, "")}`,
+      },
+    });
+    return response?.data;
+  } catch (err) {
+    throw new Error(err.response?.data?.message || err.message);
+  }
+});
+
+export const changePassword = createAsyncThunk(
+  "user/changePassword",
+  async (body) => {
+    try {
+      const response = await axios.post(
+        `http://localhost:3300/api/auth/updatePass`,
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage
+              .getItem("token")
+              .replace(/^"|"$/g, "")}`,
           },
         }
       );
@@ -56,6 +107,9 @@ const authSlice = createSlice({
       state.user = "";
       state.token = "";
     },
+    updateStatus: (state) => {
+      state.status = "idle";
+    },
   },
   extraReducers(builder) {
     builder
@@ -64,7 +118,7 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(login.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "logedIn";
         state.loading = false;
         state.user = action.payload.user;
         state.token = action.payload.token;
@@ -81,11 +135,52 @@ const authSlice = createSlice({
         state.loading = true;
       })
       .addCase(updateProfile.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "updatedProfile";
         state.loading = false;
-        state.success = action.payload.message;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
       })
       .addCase(updateProfile.rejected, (state, action) => {
+        state.status = "error";
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(userHistory.pending, (state, action) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(userHistory.fulfilled, (state, action) => {
+        state.status = "fetchedHistory";
+        state.loading = false;
+        state.history = action.payload.histories;
+      })
+      .addCase(userHistory.rejected, (state, action) => {
+        state.status = "error";
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(register.pending, (state, action) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.status = "registred";
+        state.loading = false;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.status = "error";
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(changePassword.pending, (state, action) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(changePassword.fulfilled, (state, action) => {
+        state.status = "passwordChanged";
+        state.loading = false;
+      })
+      .addCase(changePassword.rejected, (state, action) => {
         state.status = "error";
         state.loading = false;
         state.error = action.error.message;
@@ -93,10 +188,10 @@ const authSlice = createSlice({
   },
 });
 
-export const { getUser, logOut } = authSlice.actions;
+export const { getUser, logOut, updateStatus } = authSlice.actions;
+export const selectHistory = (state) => state.user.history;
 export const getUserStatus = (state) => state.user.status;
 export const getUserError = (state) => state.user.error;
 export const getUserLoading = (state) => state.user.loading;
 export const getUserData = (state) => state.user.user;
-export const getUserSuccess = (state) => state.user.success;
 export default authSlice.reducer;

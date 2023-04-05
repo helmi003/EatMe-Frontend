@@ -12,7 +12,7 @@ export const fetchDishes = createAsyncThunk("dishes/fetchDishes", async () => {
     const response = await axios.get("http://localhost:3300/api/dish");
     return response?.data;
   } catch (err) {
-    return err.message;
+    throw new Error(err.response?.data?.message || err.message);
   }
 });
 

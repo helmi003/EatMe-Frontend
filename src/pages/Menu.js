@@ -15,6 +15,7 @@ import {
   fetchDishes,
 } from "../features/dishesSlice";
 import Loading from "../components/Loading/Loading";
+import Error from "../components/Error/Error";
 function Menu() {
   const dispatch = useDispatch();
   useEffect(() => {
@@ -31,9 +32,8 @@ function Menu() {
   if (dishStatus === "loading") {
     content = <Loading />;
   } else if (dishStatus === "error") {
-    console.log("error", error);
-    content = <p>{error}</p>;
-  } else {
+    content = <Error>{error}</Error>;
+  } else if (dishStatus === "success") {
     let sortedDishes = Array.from(dishes ?? []);
     if (sortOption === "Name: A to Z") {
       sortedDishes.sort((a, b) => a.name.localeCompare(b.name));

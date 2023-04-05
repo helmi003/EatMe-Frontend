@@ -84,7 +84,6 @@ const Header = () => {
                 className={classes.header__content__container__cart}
               />
             </Link>
-
             <span className={classes.header__content__container__circle}>
               {dishes.length > 0 ? dishes.length : 0}
             </span>
