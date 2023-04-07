@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { dishesList } from "../assets/utils/config";
 import Button from "../components/Button/Button";
 import CheckBox from "../components/CheckBox/CheckBox";
@@ -22,7 +22,43 @@ function Checkout() {
     state: isChecked ? user.state : "",
     region: isChecked ? user.region : "",
   });
-
+  const handleIsChecked = () => {
+    setIsChecked(!isChecked);
+  };
+  useEffect(() => {
+    if (isChecked) {
+      setValues({
+        discount: { code: "E5gdQ23", price: 5 },
+        name: user.username,
+        number: user.phone,
+        address: user.address,
+        country: user.country,
+        code: user.postal,
+        state: user.state,
+        region: user.region,
+      });
+    } else {
+      setValues({
+        discount: { code: "E5gdQ23", price: 5 },
+        name: "",
+        number: null,
+        address: "",
+        country: "",
+        code: "",
+        state: "",
+        region: "",
+      });
+    }
+  }, [
+    isChecked,
+    user.username,
+    user.phone,
+    user.address,
+    user.country,
+    user.postal,
+    user.state,
+    user.region,
+  ]);
   const onChange = (e) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
@@ -45,6 +81,7 @@ function Checkout() {
           <h3>Personal information:</h3>
           <br />
           <Input
+            key="name"
             extraStyles={{ backgroundColor: "#F0F0F7" }}
             id="name"
             name="name"
@@ -123,7 +160,7 @@ function Checkout() {
                 value="sameInfo"
                 label="Same as profil Information"
                 check={isChecked}
-                onClick={() => setIsChecked(!isChecked)}
+                onClick={handleIsChecked}
               />
             </>
           )}

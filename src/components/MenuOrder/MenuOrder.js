@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import classes from "./MenuOrder.module.scss";
 import { Link } from "react-router-dom";
 import CheckBox from "../CheckBox/CheckBox";
@@ -6,9 +6,7 @@ import Counter from "../Counter/Counter";
 import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 
-function MenuOrder(dish) {
-  const [isActive, setIsActive] = useState(false);
-  const [isChecked, setIsChecked] = useState(false);
+function MenuOrder({ dish, isChecked, setIsChecked, isActive, setIsActive }) {
   return (
     <div className={classes.MenuOrder}>
       <div className={classes.MenuOrder__menu}>
@@ -17,15 +15,15 @@ function MenuOrder(dish) {
             id={dish.category}
             name={dish.category}
             value={dish.category}
-            check={isChecked.toString()}
+            check={isChecked}
             onClick={() => setIsChecked(!isChecked)}
           />
           <Link to="/Produit" dish={dish}>
-            <img src={dish.image} alt="makloub" />
+            <img src={dish.image} alt={dish.name} />
           </Link>
           <div className={classes.MenuOrder__content__details}>
             <h2>{dish.name}</h2>
-            <h4>{dish.supplements.map(desc => desc.name).join(", ")}</h4>
+            <h4>{dish.supplements.map((desc) => desc.name).join(", ")}</h4>
             <div className={classes.MenuOrder__content__details__counter}>
               <p>Quantity:</p> <Counter quantity={dish.quantity} />
             </div>

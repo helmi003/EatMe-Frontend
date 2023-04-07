@@ -59,7 +59,9 @@ const Login = () => {
     );
     setValues({ password: "" });
   };
-
+  const handleIsChecked = () => {
+    setIsChecked(!isChecked);
+  };
   const [isChecked, setIsChecked] = useState(false);
   return loading ? (
     <Loading />
@@ -87,8 +89,8 @@ const Login = () => {
               name="remember"
               value="remember"
               label="Remember me"
-              check={isChecked.toString()}
-              onChange={(e) => setIsChecked(!isChecked)}
+              check={isChecked}
+              onChange={handleIsChecked}
             />
             <Link to="/ForgetPassword">Forget password?</Link>
           </div>

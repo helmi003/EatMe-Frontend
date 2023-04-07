@@ -21,10 +21,10 @@ function FavouriteDish(dish) {
     await dispatch(
       removeFavorite({ id: dish._id, body: { userId: user._id } })
     );
-    if (status === "success") {
+    if (status === "successRemoving") {
       dispatch(favorite());
       toast.success("Favourite removed successfully");
-    } else if (status === "error") {
+    } else if (status === "errorRemoving") {
       toast.success(error);
     }
   };

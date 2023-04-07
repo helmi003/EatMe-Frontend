@@ -27,36 +27,22 @@ function Menu() {
   const error = useSelector(getDishesError);
   const [sortOption, setSortOption] = useState("Sort by");
   const [search, setSearch] = useState("");
-  let content;
+  const [activeDishes, setActiveDishes] = useState({});
+  const handleActive = (dishId, isActive) => {
+    setActiveDishes({
+      ...activeDishes,
+      [dishId]: isActive,
+    });
+  };
 
-  if (dishStatus === "loading") {
-    content = <Loading />;
-  } else if (dishStatus === "error") {
-    content = <Error>{error}</Error>;
-  } else if (dishStatus === "success") {
-    let sortedDishes = Array.from(dishes ?? []);
-    if (sortOption === "Name: A to Z") {
-      sortedDishes.sort((a, b) => a.name.localeCompare(b.name));
-    } else if (sortOption === "Name: Z to A") {
-      sortedDishes.sort((a, b) => b.name.localeCompare(a.name));
-    } else if (sortOption === "Price: Low to High") {
-      sortedDishes.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "Price: High to Low") {
-      sortedDishes.sort((a, b) => b.price - a.price);
-    }
-    const filteredDishes = sortedDishes?.filter((dish) =>
-      dish.name.toLowerCase().includes(search.toLowerCase())
-    );
-    content = (
-      <>
-        {filteredDishes && filteredDishes.length > 0 ? (
-          filteredDishes.map((dish) => <MenuOrder key={dish._id} {...dish} />)
-        ) : (
-          <div>No data available</div>
-        )}
-      </>
-    );
-  }
+  const [checkedDishes, setCheckedDishes] = useState({});
+
+  const handleCheck = (dishId, isChecked) => {
+    setCheckedDishes({
+      ...checkedDishes,
+      [dishId]: isChecked,
+    });
+  };
 
   const [checkboxs, setCheckboxs] = useState(menuItems);
   const [sandwiches, setSandwiches] = useState(sandwichesMenuItems);
@@ -86,6 +72,54 @@ function Menu() {
     "Price: Low to High",
     "Price: High to Low",
   ];
+
+  const selectedCategories = checkboxs
+    .concat(sandwiches)
+    .filter((item) => item.check)
+    .map((item) => item.name.toLowerCase());
+
+  let content;
+
+  if (dishStatus === "loading") {
+    content = <Loading />;
+  } else if (dishStatus === "error") {
+    content = <Error>{error}</Error>;
+  } else if (dishStatus === "success") {
+    let sortedDishes = Array.from(dishes ?? []);
+    if (sortOption === "Name: A to Z") {
+      sortedDishes.sort((a, b) => a.name.localeCompare(b.name));
+    } else if (sortOption === "Name: Z to A") {
+      sortedDishes.sort((a, b) => b.name.localeCompare(a.name));
+    } else if (sortOption === "Price: Low to High") {
+      sortedDishes.sort((a, b) => a.price - b.price);
+    } else if (sortOption === "Price: High to Low") {
+      sortedDishes.sort((a, b) => b.price - a.price);
+    }
+    const filteredDishes = sortedDishes?.filter(
+      (dish) =>
+        dish.name.toLowerCase().includes(search.toLowerCase()) &&
+        (selectedCategories.length === 0 ||
+          selectedCategories.includes(dish.category.toLowerCase()))
+    );
+    content = (
+      <>
+        {filteredDishes && filteredDishes.length > 0 ? (
+          filteredDishes.map((dish) => (
+            <MenuOrder
+              key={dish._id}
+              dish={dish}
+              isActive={activeDishes[dish._id] || false}
+              setIsActive={(isActive) => handleActive(dish._id, isActive)}
+              isChecked={checkedDishes[dish._id] || false}
+              setIsChecked={(isChecked) => handleCheck(dish._id, isChecked)}
+            />
+          ))
+        ) : (
+          <div>No data available</div>
+        )}
+      </>
+    );
+  }
 
   return (
     <div className={classes.container__menu}>

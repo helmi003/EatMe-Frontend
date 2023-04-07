@@ -87,20 +87,20 @@ const favoriteSlice = createSlice({
         state.status = "loading";
       })
       .addCase(addFavorite.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "successAdding";
       })
       .addCase(addFavorite.rejected, (state, action) => {
-        state.status = "error";
+        state.status = "errorAdding";
         state.error = action.error.message;
       })
       .addCase(removeFavorite.pending, (state, action) => {
         state.status = "loading";
       })
       .addCase(removeFavorite.fulfilled, (state, action) => {
-        state.status = "success";
+        state.status = "successRemoving";
       })
       .addCase(removeFavorite.rejected, (state, action) => {
-        state.status = "error";
+        state.status = "errorRemoving";
         state.error = action.error.message;
       });
   },
