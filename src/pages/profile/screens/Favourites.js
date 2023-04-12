@@ -25,7 +25,8 @@ function Favourites() {
     content = <Loading />;
   } else if (status === "error") {
     content = <Error>{error}</Error>;
-  } else if (status === "success") {
+  } else if (status === "favoriteFetched") {
+    console.log(favourites)
     content = (
       <>
         {favourites && favourites.length > 0 ? (

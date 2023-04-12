@@ -1,7 +1,6 @@
 @import "../../styles/variables.scss";
 
 .cartOrder {
-  
   &__content {
     padding: 0px 30px;
     display: flex;
@@ -9,6 +8,13 @@
     justify-content: space-between;
     img {
       height: 100px;
+      margin-right: 100px;
+    }
+    &__div {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex: 1;
     }
   }
 }

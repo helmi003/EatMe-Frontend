@@ -22,9 +22,6 @@ function Checkout() {
     state: isChecked ? user.state : "",
     region: isChecked ? user.region : "",
   });
-  const handleIsChecked = () => {
-    setIsChecked(!isChecked);
-  };
   useEffect(() => {
     if (isChecked) {
       setValues({
@@ -65,7 +62,7 @@ function Checkout() {
   const dishes = dishesList;
   const delivery = 7;
   const [sortOption, setSortOption] = useState("payment option");
-  const options = ["Debit", "Cash"];
+  const options = ["Debit dfdfd", "Cash fdfdf", "Cash fdfdf", "Cash fdfdf"];
   const total = dishes.reduce(
     (acc, dish) => parseFloat(acc + dish.quantity * dish.price),
     0
@@ -88,8 +85,6 @@ function Checkout() {
             type="text"
             label="Full name"
             placeholder="Enter your full name"
-            errorMessage="Only alphabets, spaces and numbers are allowed and the length should be between 3 and 30"
-            pattern="^[A-Za-z0-9 ]{3,30}$"
             required
             value={values["name"]}
             onChange={onChange}
@@ -98,6 +93,7 @@ function Checkout() {
             value={values["number"]}
             label="Phone number"
             onChange={onChange}
+            required
           />
           <Input
             extraStyles={{ backgroundColor: "#F0F0F7" }}
@@ -111,7 +107,11 @@ function Checkout() {
             onChange={onChange}
           />
           <CountrySelector
-            extraStyles={{ backgroundColor: "#F0F0F7", fontSize: 15 }}
+            extraStyles={{
+              backgroundColor: "#F0F0F7",
+              fontSize: 15,
+              marginRight: "50px",
+            }}
             region={values["state"]}
             country={values["country"]}
             setRegion={(state) => setValues((prev) => ({ ...prev, state }))}
@@ -123,7 +123,7 @@ function Checkout() {
             className={classes.container__checkout__content__billing__region}
           >
             <Input
-              extraStyles={{ backgroundColor: "#F0F0F7", width: "160px" }}
+              extraStyles={{ backgroundColor: "#F0F0F7", width: "200px" }}
               id="zip"
               name="zip"
               type="text"
@@ -134,7 +134,7 @@ function Checkout() {
               onChange={onChange}
             />
             <Input
-              extraStyles={{ backgroundColor: "#F0F0F7", width: "160px" }}
+              extraStyles={{ backgroundColor: "#F0F0F7", width: "200px" }}
               id="region"
               name="region"
               type="text"
@@ -146,7 +146,7 @@ function Checkout() {
             />
           </div>
           <DropDown
-            extraStyles={{ width: "220px" }}
+            extraStyles={{ width: "220px", zIndex:"2" }}
             selected={sortOption}
             setSelected={setSortOption}
             options={options}
@@ -160,13 +160,10 @@ function Checkout() {
                 value="sameInfo"
                 label="Same as profil Information"
                 check={isChecked}
-                onClick={handleIsChecked}
+                onClick={() => setIsChecked(!isChecked)}
               />
             </>
           )}
-
-          <br />
-          <h3>Payment information:</h3>
           <Button
             extraStyles={{
               position: "relative",

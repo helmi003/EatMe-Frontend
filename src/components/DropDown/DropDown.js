@@ -4,7 +4,7 @@ import { IoIosArrowUp } from "react-icons/io";
 import { IoIosArrowDown } from "react-icons/io";
 import { FaSortAmountDownAlt } from "react-icons/fa";
 
-function DropDown({ extraStyles, selected, setSelected, options }) {
+function DropDown({ extraStyles,buttonColor, selected, setSelected, options }) {
   const [isActive, setIsActive] = useState(false);
 
   return (
@@ -12,6 +12,7 @@ function DropDown({ extraStyles, selected, setSelected, options }) {
       <div
         className={classes.dropDown__btn}
         onClick={() => setIsActive(!isActive)}
+        style={buttonColor}
       >
         <div className={classes.dropDown__btn__sort}>
           <FaSortAmountDownAlt color="#B3B3B3" />

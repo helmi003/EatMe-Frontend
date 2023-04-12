@@ -14,9 +14,8 @@ import tunisia from "../assets/images/tunisia.png";
 import map from "../assets/images/map.png";
 
 import { AiFillStar } from "react-icons/ai";
-import Button from "../components/Button/Button"
-import EatMe from "../components/EatMe/EatMe"
-import FindTable from "../components/FindTable/FindTable";
+import Button from "../components/Button/Button";
+import EatMe from "../components/EatMe/EatMe";
 function Home() {
   // const slides = [
   //   "../../assets/images/home_image1.jpg",
@@ -34,7 +33,7 @@ function Home() {
             <img src={location} alt="location" />
           </div>
           <div className={classes.container__home__about__div1__div2}>
-            Tunisia - Beni Rabia 4015,130 Rue Hsine Eloued Sousse
+            Tunisia - Beni Rabia 4015, 130 Rue Hsine Eloued Sousse
           </div>
         </div>
         <div className={classes.container__home__about__div4}>
@@ -45,13 +44,12 @@ function Home() {
             <div className={classes.container__home__about__div1__div3}>
               <h2>About Us</h2>
               <div>
-                <EatMe/> brings incredible blends of various cultures
-                to the Desert Shores community in Djerba. The restaurant offers
-                fine dining with a blended cultural theme of modern Tunisian
-                cuisine.
+                <EatMe /> brings incredible blends of various cultures to the
+                Desert Shores community in Djerba. The restaurant offers fine
+                dining with a blended cultural theme of modern Tunisian cuisine.
               </div>
               <Link to="/About">
-                <Button extraStyles={{borderRadius:"0"}}>Read more</Button>
+                <Button extraStyles={{ borderRadius: "0" }}>Read more</Button>
               </Link>
             </div>
           </div>
@@ -73,7 +71,13 @@ function Home() {
       </p>
       <div className={classes.container__home__center}>
         <Link to="/Menu">
-          <Button extraStyles={{borderRadius:"0"}}>See more</Button>
+          <Button
+            extraStyles={{
+              borderRadius: "0",
+            }}
+          >
+            See more
+          </Button>
         </Link>
       </div>
       <div className={classes.container__home__reservation}>
@@ -82,7 +86,20 @@ function Home() {
           Call us at (+216) 55 555 555 or book a table through Open Table
           reservations:
         </p>
-        <FindTable/>
+        <Link to="/Reservation">
+          <Button
+            extraStyles={{
+              borderRadius: "0",
+              position: "relative",
+              transform: "translateX(-50%)",
+              left: "50%",
+              marginBottom: "10px",
+              marginTop: "50px",
+            }}
+          >
+            Book a table
+          </Button>
+        </Link>
         <img src={slogon} alt="slogon" />
       </div>
       <div className={classes.container__home__reviews}>
@@ -128,9 +145,17 @@ function Home() {
         </div>
       </div>
       <div className={classes.container__home__location}>
-        <img className={classes.container__home__location__tunisia} src={tunisia} alt="tunisia map" />
+        <img
+          className={classes.container__home__location__tunisia}
+          src={tunisia}
+          alt="tunisia map"
+        />
         <p>Tunisia - Beni Rabia 4015,130 Rue Hsine Eloued Sousse</p>
-        <img className={classes.container__home__location__map} src={map} alt="map" />
+        <img
+          className={classes.container__home__location__map}
+          src={map}
+          alt="map"
+        />
       </div>
     </div>
   );

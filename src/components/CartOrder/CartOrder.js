@@ -12,13 +12,12 @@ function CartOrder(dish) {
         <Link to="/Produit">
           <img src={image} alt="makloub" />
         </Link>
-        <div>
-          <h2>{dish.name}</h2>
-          <h5>{dish.type}</h5>
+        <div className={classes.cartOrder__content__div}>
+          <h3>{dish.name}</h3>
+          <Counter quantity={dish.quantity} />
+          <p>{dish.price}DT</p>
         </div>
-        <Counter quantity={dish.quantity} />
-        <p>{dish.price}DT</p>
-        <IoMdClose size={30} cursor="pointer" />
+        <IoMdClose size={30} cursor="pointer" style={{ marginLeft: "100px" }} />
       </div>
       <hr />
     </div>

@@ -16,8 +16,39 @@ import {
 } from "../features/dishesSlice";
 import Loading from "../components/Loading/Loading";
 import Error from "../components/Error/Error";
+import {
+  favorite,
+  selectAllFavorites,
+  getFavoritesStatus,
+} from "../features/favoriteSlice";
 function Menu() {
   const dispatch = useDispatch();
+  const [isUserConnected, setIsUserConnected] = useState(false);
+  const [favoriteDishes, setFavoriteDishes] = useState([]);
+  const output = window.localStorage.getItem("user");
+  const user = JSON.parse(output);
+  const favorites = useSelector(selectAllFavorites);
+  const favoritesStatus = useSelector(getFavoritesStatus);
+  console.log(isUserConnected);
+  console.log(favoriteDishes);
+  useEffect(() => {
+    if (user && user.isConnected) {
+      setIsUserConnected(true);
+    }
+  }, [user]);
+
+  useEffect(() => {
+    if (isUserConnected) {
+      dispatch(favorite());
+    }
+  }, [isUserConnected, dispatch]);
+
+  useEffect(() => {
+    if (favoritesStatus === "favoriteFetched") {
+      setFavoriteDishes(favorites);
+    }
+  }, [favoritesStatus, favorites]);
+
   useEffect(() => {
     dispatch(fetchDishes());
   }, [dispatch]);
@@ -72,8 +103,10 @@ function Menu() {
     "Price: Low to High",
     "Price: High to Low",
   ];
-
   const selectedCategories = checkboxs
+  .filter(
+    (item) => item.name !== "sandwiches"
+  )
     .concat(sandwiches)
     .filter((item) => item.check)
     .map((item) => item.name.toLowerCase());

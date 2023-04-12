@@ -7,6 +7,7 @@ import { AiFillHeart } from "react-icons/ai";
 import { AiOutlineHeart } from "react-icons/ai";
 
 function MenuOrder({ dish, isChecked, setIsChecked, isActive, setIsActive }) {
+  
   return (
     <div className={classes.MenuOrder}>
       <div className={classes.MenuOrder__menu}>

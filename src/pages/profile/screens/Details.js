@@ -96,8 +96,6 @@ function Profile() {
     e.preventDefault();
     setFormErrors(validate(values));
     if (Object.keys(validate(values)).length === 0) {
-      // const newDate = new Date(selectedDate);
-      // const isoDate = newDate.toISOString();
       dispatch(
         updateProfile({
           username: values["name"],

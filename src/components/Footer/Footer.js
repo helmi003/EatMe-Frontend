@@ -9,7 +9,9 @@ import { IoLogoYoutube } from "react-icons/io";
 import { MdLocationOn } from "react-icons/md";
 import { BsFillTelephoneFill } from "react-icons/bs";
 import { MdEmail } from "react-icons/md";
-import EatMe from "../../components/EatMe/EatMe"
+import EatMe from "../../components/EatMe/EatMe";
+import { Link } from "react-router-dom";
+import { menuItems } from "../../assets/utils/config";
 function Footer() {
   return (
     <div className={classes.footer}>
@@ -39,31 +41,36 @@ function Footer() {
           />
         </div>
         <div className={classes.footer__warpped__about}>
-          <h1>About</h1>
+          <Link to="/About">
+            <h1>About</h1>
+          </Link>
           <div className={classes.footer__warpped__about__line}></div>
           <p>
-          <EatMe/> offers a tantalizing array of dishes that reflect Tunisia's
-            culinary heritage, such as couscous, brik, tagine, and
+            <EatMe /> offers a tantalizing array of dishes that reflect
+            Tunisia's culinary heritage, such as couscous, brik, tagine, and
             harissa-spiced meats and stews, all accompanied by freshly baked
             bread and mint tea.
           </p>
         </div>
         <div className={classes.footer__warpped__menu}>
-          <h1>Menu</h1>
+          <Link to="/Menu">
+            <h1>Menu</h1>
+          </Link>
           <div className={classes.footer__warpped__menu__line}></div>
           <div className={classes.footer__warpped__menu__content}>
-            <h2>Pizzas</h2>
-            <h2>Plates</h2>
-            <h2>Salads</h2>
-            <h2>Drinks</h2>
-            <h2>Desert</h2>
-            <h2>Ice Cream</h2>
-            <h2>Breakfest</h2>
-            <h2>...</h2>
+            {menuItems.map((categories, index) =>
+              index !== menuItems.length - 1 ? (
+                <h2>{categories.name}, </h2>
+              ) : (
+                <h2>{categories.name} </h2>
+              )
+            )}
           </div>
         </div>
         <div className={classes.footer__warpped__contact}>
-          <h1>Contact</h1>
+          <Link to="/Contact">
+            <h1>Contact</h1>
+          </Link>
           <div className={classes.footer__warpped__contact__line}></div>
           <div>
             <div className={classes.footer__warpped__contact__content}>
@@ -72,7 +79,7 @@ function Footer() {
             </div>
             <div className={classes.footer__warpped__contact__content}>
               <MdLocationOn size={60} />
-              <p>Tunisia - Beni Rabia 4015,130 Rue Hsine Eloued Sousse</p>
+              <p>Tunisia - Beni Rabia 4015, 130 Rue Hsine Eloued Sousse</p>
             </div>
             <div className={classes.footer__warpped__contact__content}>
               <MdEmail size={30} />

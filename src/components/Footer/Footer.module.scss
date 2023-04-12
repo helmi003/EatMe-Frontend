@@ -6,9 +6,23 @@
   }
   transition: 0.3s ease all;
   min-height: 400px;
-  background-image: url(../../assets/images/footer.png);
-  background-repeat: no-repeat;
-  background-size: cover;
+  position: relative;
+  overflow: hidden;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+    background-image: url(../../assets/images/footer.jpg);
+    background-repeat: no-repeat;
+    background-size: cover;
+    filter: blur(8px);
+    -webkit-filter: blur(8px);
+
+    z-index: -1;
+  }
   &__warpped {
     display: flex;
     flex-wrap: wrap;
@@ -25,7 +39,7 @@
       &__icon {
         margin-right: 10px;
         color: $light;
-        :hover{
+        :hover {
           cursor: pointer;
           color: $silver;
         }
@@ -33,8 +47,8 @@
     }
     &__about {
       width: 300px;
+
       h1 {
-        color: $light;
         margin-top: 50px;
       }
       p {
@@ -45,6 +59,21 @@
         padding: 5px 0px;
         width: 300px;
         border-top: 5px solid $primary;
+        transition: border-top 1s ease;
+        &:hover {
+          border-top-color: $light;
+          border-top-width: 10px;
+        }
+      }
+      a {
+        color: $light;
+        transition: color 1s ease;
+        text-decoration: none;
+        &:hover {
+          color: $primary;
+          border-top-color: $light;
+          border-top-width: 10px;
+        }
       }
       span {
         color: $primary;
@@ -55,13 +84,27 @@
       width: 300px;
       margin-left: 10px;
       h1 {
-        color: $light;
         margin-top: 50px;
       }
       &__line {
         padding: 5px 0px;
         width: 300px;
         border-top: 5px solid $primary;
+        transition: border-top 1s ease;
+        &:hover {
+          border-top-color: $light;
+          border-top-width: 10px;
+        }
+      }
+      a {
+        color: $light;
+        transition: color 1s ease;
+        text-decoration: none;
+        &:hover {
+          color: $primary;
+          border-top-color: $light;
+          border-top-width: 10px;
+        }
       }
       &__content {
         width: 300px;
@@ -77,20 +120,34 @@
       width: 300px;
       margin-left: 10px;
       h1 {
-        color: $light;
         margin-top: 50px;
       }
       &__line {
         padding: 5px 0px;
         width: 300px;
         border-top: 5px solid $primary;
+        transition: border-top 1s ease;
+        &:hover {
+          border-top-color: $light;
+          border-top-width: 10px;
+        }
+      }
+      a {
+        color: $light;
+        transition: color 1s ease;
+        text-decoration: none;
+        &:hover {
+          color: $primary;
+          border-top-color: $light;
+          border-top-width: 10px;
+        }
       }
       &__content {
         display: flex;
         font-size: 20px;
         font-weight: 600;
         color: $silver;
-        p{
+        p {
           margin-left: 10px;
         }
       }

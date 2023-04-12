@@ -205,7 +205,7 @@
       padding: 0 3rem;
       margin: 0 -3rem;
     }
-    background-image: url(../../assets/images/contact.png);
+    background-image: url(../../assets/images/contact.jpg);
     background-repeat: no-repeat;
     background-size: cover;
     &__form {
@@ -228,13 +228,16 @@
         border-radius: $borderRadius;
         padding: 15px;
         margin-bottom: 20px;
-        background-color: rgba($dark, 0.7);
+        background-color: rgba($silver, 0.5);
         text-align: center;
         h1 {
           color: $light;
         }
         p {
           color: $light;
+        }
+        &:hover{
+          background-color: rgba($silver, 0.8);
         }
       }
     }
@@ -474,7 +477,8 @@
         width: 100%;
         &__region{
           display: flex;
-          gap: 10px;
+          align-items: center;
+          gap: 50px;
           margin-bottom: 10px;
         }
       }
@@ -529,6 +533,7 @@
     &__details {
       display: flex;
       justify-content: space-between;
+      margin-top: 10px;
       &__right {
         &__inputs {
           display: flex;

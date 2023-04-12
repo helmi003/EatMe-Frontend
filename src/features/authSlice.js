@@ -83,6 +83,29 @@ export const changePassword = createAsyncThunk(
             Authorization: `Bearer ${localStorage
               .getItem("token")
               .replace(/^"|"$/g, "")}`,
+            "Access-Control-Allow-Origin": "*",
+          },
+        }
+      );
+      return response?.data;
+    } catch (err) {
+      throw new Error(err.response?.data?.message || err.message);
+    }
+  }
+);
+
+export const updateProfileImage = createAsyncThunk(
+  "user/updateProfileImage",
+  async (body) => {
+    try {
+      const response = await axios.post(
+        "http://localhost:3300/api/auth/profileImage",
+        body,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage
+              .getItem("token")
+              .replace(/^"|"$/g, "")}`,
           },
         }
       );
@@ -181,6 +204,21 @@ const authSlice = createSlice({
         state.loading = false;
       })
       .addCase(changePassword.rejected, (state, action) => {
+        state.status = "error";
+        state.loading = false;
+        state.error = action.error.message;
+      })
+      .addCase(updateProfileImage.pending, (state, action) => {
+        state.status = "loading";
+        state.loading = true;
+      })
+      .addCase(updateProfileImage.fulfilled, (state, action) => {
+        state.status = "imageUpdated";
+        state.loading = false;
+        state.user = action.payload;
+        localStorage.setItem("user", JSON.stringify(action.payload));
+      })
+      .addCase(updateProfileImage.rejected, (state, action) => {
         state.status = "error";
         state.loading = false;
         state.error = action.error.message;

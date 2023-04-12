@@ -101,6 +101,7 @@ function Produit(dish) {
       <div className={classes.container__produit__right}>
         <img src={makloub} alt="makloub" />
         <Counter
+          quantity={3}
           extraStyles={{
             position: "relative",
             transform: "translateX(-50%)",
